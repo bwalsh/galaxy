@@ -19,7 +19,7 @@ export SEATTLESEQ_WRITEGENOTYPE_JAR_PATH=/opt/Genomics/annotation/writeGenotype/
 export MUTECT_JAR_PATH=$GENOMICS_DIR/ohsu/dnapipeline/mutect-1.1.7.jar
 export PATH=$GENOMICS_DIR:$BWA_DIR:$SAMTOOLS_DIR:$PICARD_PATH:$PYTHON_2_7_PATH/bin:$PATH
 export NSLOTS=16
-export PYTHON_EGG_CACHE=/home/pfoley1/integration/galaxy/.eggs_cache
+export PYTHON_EGG_CACHE=.eggs_cache
 
 cd `dirname $0`
 
