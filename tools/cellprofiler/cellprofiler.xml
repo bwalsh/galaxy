@@ -1,0 +1,34 @@
+<tool id="cellprofiler" name="CellProfiler Pipeline" version="1.0.0">
+    <description>Analyze images using OHSU CellProfiler Pipelines</description>
+    <command interpreter="python">
+        runcp.py $cp_pipe $output
+    </command>
+    <inputs>
+        <param name="cp_pipe" type="select" label="Select CP Pipeline">
+            <option value="bcc">Brenden Colson Center</option>
+            <option value="corless">Gray Lab Pipeline</option>
+            <option value="cous">Coussens Lab</option>
+            <option value="yant">Yantasee Lab - Flow Cytometry</option>
+            <option value="yant2">Yantasee Lab - Blood Vessel</option>
+            <option value="taka">Tsujikawa Lab</option>
+        </param>
+    </inputs>
+    <outputs>
+        <data format="tabular" name="output" />
+    </outputs>
+    <help>
+.. class:: infomark
+        
+**CellProfiler Pipeline**
+
+This tool will run one of the 5 cellprofiler pipeline's aqcuired from OHSU.
+
+Brenden Colson Center - Evaluate # of nuclei appearing within enlarged ducts.
+Gray Lab - 		High Throughput Imaging
+Coussens Lab - 		Tissue alignment/registration
+Yantasee Lab - 		Immuno Flourescence
+Yantasee Lab -		Blood Vessel		
+Tsujikawa Lab - 	Flow Cytometry
+
+    </help>
+</tool>
