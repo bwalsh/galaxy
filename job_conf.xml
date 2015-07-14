@@ -27,32 +27,36 @@
 	<!-- Destinations define details about remote resources and how jobs
 	should be executed on those remote resources.
 	-->
-			<destination id="local" runner="local" metrics="off"/>
-			<destination id="docker_condor_16C_16G" runner="drmaa">
-			  <param id="nativeSpecification">getenv=True\nrequest_cpus=16\nrequest_memory=16 GB</param>
-			</destination>
-			<destination id="condor_galaxy" runner="drmaa" metrics="off">
-			  <param id="nativeSpecification">getenv=True\nrequest_cpus=2\nrequest_memory=8 GB\nrequirements=(machine=="exanode-0-23.local")</param>
-			</destination>
-			<destination id="condor_2C_2G" runner="drmaa">
-			  <param id="nativeSpecification">getenv=True\nrequest_cpus=2\nrequest_memory=2 GB</param>
-			</destination>
-			<destination id="condor_1C_100M" runner="drmaa">
-			  <param id="nativeSpecification">getenv=True\nrequest_cpus=1\nrequest_memory=100 MB</param>
-			</destination>
-			<destination id="docker_condor_16C_16G" runner="drmaa">
-			  <param id="docker_enabled">true</param>
-			  <param id="docker_volumes">$defaults</param>
-			  <param id="nativeSpecification">getenv=True\nrequest_cpus=16\nrequest_memory=16 GB</param>
-			</destination>
-
+        <destination id="local" runner="local" metrics="off"/>
+	<destination id="docker_condor_16C_16G" runner="drmaa">
+	  <param id="nativeSpecification">getenv=True\nrequest_cpus=16\nrequest_memory=16 GB</param>
+	</destination>
+	<destination id="condor_galaxy" runner="drmaa" metrics="off">
+	  <param id="nativeSpecification">getenv=True\nrequest_cpus=2\nrequest_memory=8 GB\nrequirements=(machine=="exanode-0-23.local")</param>
+	</destination>
+	<destination id="condor_2C_2G" runner="drmaa">
+	  <param id="nativeSpecification">getenv=True\nrequest_cpus=2\nrequest_memory=2 GB</param>
+	</destination>
+	<destination id="condor_1C_100M" runner="drmaa">
+	  <param id="nativeSpecification">getenv=True\nrequest_cpus=1\nrequest_memory=100 MB</param>
+	</destination>
+	<destination id="docker_condor_16C_16G" runner="drmaa">
+	  <param id="docker_enabled">true</param>
+	  <param id="docker_volumes">$defaults</param>
+	  <param id="nativeSpecification">getenv=True\nrequest_cpus=16\nrequest_memory=16 GB</param>
+	</destination>
+        <destination id="condor_1C_100M_ADAM" runner="drmaa">
+         <param id="docker_enabled">true</param>
+         <param id="docker_volumes">$defaults</param>
+         <!--param id="nativeSpecification">getenv=True\nrequest_cpus=1\nrequest_memory=100 MB\njob_type=adam\nmachine_name=SPARK\nrequirements=(machine=="v10.cluster5.ccc.com" || machine=="v12.cluster5.ccc.com")</param-->
+         <param id="nativeSpecification">getenv=True\nrequest_cpus=1\nrequest_memory=100 MB\njob_type=adam\nmachine_name=SPARK\nrequirements=(TARGET.SPARK_COMPUTE_NODE =?= True)</param>
+        </destination>
     </destinations>
     <tools>
 	<!-- Tools can be configured to use specific destinations or handlers,
 	identified by either the "id" or "tags" attribute.  If assigned to
 	a tag, a handler or destination that matches that tag will be
 	chosen at random.
-	-->
 	<tool id="cbioportal_create_files" destination="condor_galaxy"/>
 	<tool id="cbioportal_importer_tool" destination="condor_galaxy"/>
 	<tool id="cbioportal_get_database_info" destination="condor_galaxy"/>
@@ -60,6 +64,13 @@
 	<tool id="sum_reduce" destination="condor_2C_2G"/>
 	<tool id="getAnnotation" destination="condor_2C_2G"/>
 	<tool id="upload1" destination="condor_1C_100M"/>
+	-->
+        <tool id="transform_bam_to_adam" destination="condor_1C_100M_ADAM"/>
+        <tool id="transform_sort" destination="condor_1C_100M_ADAM"/>
+        <tool id="transform_mark_duplicates" destination="condor_1C_100M_ADAM"/>
+        <tool id="convert_vcf_to_adam" destination="condor_1C_100M_ADAM"/>
+        <tool id="transform_recalibrate_base_qualities" destination="condor_1C_100M_ADAM"/>
+        <tool id="transform_realign_indels" destination="condor_1C_100M_ADAM"/>
     </tools>
     <limits>
 	<!-- Certain limits can be defined. -->
