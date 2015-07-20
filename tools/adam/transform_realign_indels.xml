@@ -1,5 +1,5 @@
-<tool id="transform_realign_indels" name="--transform_realign_indels name--" version="1.0">
-  <description>--short description--</description>
+<tool id="transform_realign_indels" name="Re align Indels" version="1.0">
+  <description>Realign Indels</description>
   <command interpreter="bash">
     transform_realign_indels.sh  $input $output
   </command>
@@ -10,6 +10,6 @@
     <data format="ri.adam" name="output" metadata_source="input"/>
   </outputs>
   <help>
-  -- transform_realign_indels long help --
+  -- transform_realign_indels long help WIP --
   </help>
 </tool>

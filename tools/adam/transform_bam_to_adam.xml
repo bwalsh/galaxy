@@ -1,5 +1,5 @@
-<tool id="transform_bam_to_adam" name="Transform BAM to ADAM" version="1.0">
-  <description>--short description--</description>
+<tool id="transform_bam_to_adam" name="Convert bam to adam" version="1.0">
+  <description>Converts a bam formatted file to adam formatted file</description>
   <command interpreter="bash">
     transform_bam_to_adam.sh  $input $output
   </command>

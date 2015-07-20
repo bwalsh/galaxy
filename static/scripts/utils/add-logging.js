@@ -1,0 +1,2 @@
+define([],function(){function a(a,b){var c=void 0!==a.prototype?a.prototype:a;return void 0!==b&&(c._logNamespace=b),["debug","info","warn","error","metric"].forEach(function(a){c[a]=function(){return this.logger?this.logger.emit?this.logger.emit(a,this._logNamespace,arguments):this.logger[a]?this.logger[a].apply(this.logger,arguments):void 0:void 0}}),a}return a});
+//# sourceMappingURL=../../maps/utils/add-logging.js.map

@@ -1,0 +1,2 @@
+define([],function(){var a=function(){this.initialize&&this.initialize.apply(this,arguments)};return a.extend=Backbone.Model.extend,{Base:a,Backbone:Backbone}});
+//# sourceMappingURL=../maps/base.js.map

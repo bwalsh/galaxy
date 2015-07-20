@@ -1,5 +1,5 @@
-<tool id="transform_recalibrate_base_qualities" name="--transform_recalibrate_base_qualities name--" version="1.0">
-  <description>--short description--</description>
+<tool id="transform_recalibrate_base_qualities" name="Recalibrate Quality Scores" version="1.0">
+  <description>Recalibrate Quality Scores</description>
   <command interpreter="bash">
     transform_recalibrate_base_qualities.sh  $input $output
   </command>
@@ -11,6 +11,6 @@
     <data format="bqsr.adam" name="output" metadata_source="input"/>
   </outputs>
   <help>
-  -- transform_recalibrate_base_qualities long help --
+  -- transform_recalibrate_base_qualities long help WIP --
   </help>
 </tool>

@@ -9,20 +9,16 @@ SEARCH='//'
 HDFS_INPUT_PATH_FILE=${HDFS_INPUT_PATH_FILE/'//'/'/'}
 HDFS_OUTPUT_PATH_FILE=${HDFS_OUTPUT_PATH_FILE/'//'/'/'}
 
-
 #BEGIN Debugging the status of variables
 NEW_LINE=`printf "\n\r"`
 echo "===============START DEBUG===============" $NEW_LINE
-echo "DATE & TIME:$(date +"%m-%d-%Y %T")" $NEW_LINE
-echo "ADAM HOME:"$ADAM $NEW_LINE
-echo "SPARK HOME:"$SPARK $NEW_LINE
-echo "TESTING Yes/No:"$TEST $NEW_LINE
-echo "ADAM SUBMIT:"$ADAM_SUBMIT $NEW_LINE
+echo "START DATE & TIME:$(date +"%m-%d-%Y %T")" $NEW_LINE
 echo "HDFS_INPUT_PATH:"$HDFS_INPUT_PATH_FILE $NEW_LINE
 echo "HDFS_OUTPUT_PATH:"$HDFS_OUTPUT_PATH_FILE $NEW_LINE
-echo "===============END DEBUG===============" $NEW_LINE
 #END Debugging the status of variables
 
+#--executor-cores 24 --executor-memory 125g
+# --conf spark.shuffle.service.enable=true --master spark://g1.spark0.intel.com:7077 
 ####################################################################################################
 # This function checks for success failure errors and captures the errors into the log file
 # It accepts two parameters. 
@@ -39,29 +35,19 @@ fnc_check_error() {
 ret_cd=$1
 NEWER_LINE=`printf "\n\r"`
 if [ $ret_cd -ne 0 ]; then
-   echo `date` "$NEWER_LINE:-EXECUTION-FAILED-WITH-RETURN-CODE:-'$ret_cd': AND-WITH-FAILURE-MESSAGE: $NEWER_LINE$3"
+   echo `date` ":-EXECUTION-FAILED-WITH-RETURN-CODE:-'$ret_cd': AND-WITH-FAILURE-MESSAGE: $NEWER_LINE$3"
    if [ $4 -eq 0 ]; then
 	exit $ret_cd
    fi
 else
-   echo `date` "$NEWER_LINE:-Execution succeeded with return code 0.: With Success Message: $NEWER_LINE$2"
+   echo `date` ":-Execution succeeded With: $2"
 fi
 }
 
-#TESTING TRUE / FALSE
-
-TEST=false
-if [ "$TEST" == "true" ]; then
-	HADOOP_COMMAND=`/usr/bin/which hadoop`
-	#RETURN=$($HADOOP_COMMAND fs -test $HDFS_OUTPUT_PATH_FILE)
-	#if [ $RETURN == 0 ]; then
-		echo "HADOOP_COMMAND:"$HADOOP_COMMAND $NEW_LINE
-		echo "HADOOP_PATH:"$HADOOP_PATH $NEW_LINE
-		iferr=$($HADOOP_COMMAND fs -rm -r $HDFS_OUTPUT_PATH_FILE 2>&1)
-		fnc_check_error $? "DELETED the Ouput File so that the test succeeds" "$iferr" 1
-	#fi
-fi
-
-#CALL to Adam
-iferr=$(export SPARK_HOME=/opt/cloudera/parcels/CDH-5.4.4-1.cdh5.4.4.p0.4/lib/spark; /opt/adam/adam-distribution-0.16.0/bin/adam-submit --conf spark.shuffle.service.enable=true --master yarn-client transform $HDFS_INPUT_PATH_FILE $HDFS_OUTPUT_PATH_FILE  2>&1)
-fnc_check_error $? "*** Adam Transform from BAM file to ADAM file Succeeded ***" "$iferr" 0
+#hadoop fs -rm -r $HDFS_OUTPUT_PATH_FILE
+iferr=$(hadoop fs -rm -r $HDFS_OUTPUT_PATH_FILE 2>&1)
+fnc_check_error $? "DELETED the Ouput File In case it exists" "$iferr" 1
+iferr=$(export SPARK_HOME=/opt/cloudera/parcels/CDH-5.4.4-1.cdh5.4.4.p0.4/lib/spark; /opt/adam/adam-distribution-0.16.0/bin/adam-submit --conf spark.shuffle.service.enable=true --master yarn-client transform $HDFS_INPUT_PATH_FILE $HDFS_OUTPUT_PATH_FILE 2>&1)
+fnc_check_error $? "Transform Bam to Adam Function Succeeded on Hadoop/Spark/Adam" "$iferr" 0
+echo "END DATE & TIME:$(date +"%m-%d-%Y %T")" $NEW_LINE
+echo "===============END DEBUG==============="
